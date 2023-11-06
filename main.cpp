@@ -87,12 +87,13 @@ double distanceToAustin(double lat1d, double lon1d) {
   double lat1r, lon1r, lat2r, lon2r, u, v;
   lat1r = deg2rad(lat1d);
   lon1r = deg2rad(lon1d);
-  lat2r = deg2rad(-97.66989899);
-  lon2r = deg2rad(30.19449997);
+  lat2r = deg2rad(30.19449997);
+  lon2r = deg2rad(-97.66989899);
   u = sin((lat2r - lat1r)/2);
   v = sin((lon2r - lon1r)/2);
-  double first = pow(sin(u/2), 2) + pow(sin(v/2), 2) * cos(lat1r) * cos(lat2r);
-  return 2.0 * asin(sqrt(first)) * earthRadiusKm;
+  /*double first = pow(sin(u/2), 2) + pow(sin(v/2), 2) * cos(lat1r) * cos(lat2r);
+  return 2.0 * asin(sqrt(first)) * earthRadiusKm;*/
+  return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
 }
 
 void simpleSortTotal(LinkedList *x) {
@@ -178,10 +179,11 @@ int main()
     Node *var = LASAlle->head;
 
     for (int i = 0; i < airportCount; i++) {
-      cout << var->data.code << " distance to Austin: " << distanceToAustin(var->data.latitude, var->data.longitude) << endl;
+      /*if (((distanceToAustin(var->data.latitude, var->data.longitude))/1.60934) < 100) {*/
+      cout << var->data.code << " distance to Austin: " << (distanceToAustin(var->data.latitude, var->data.longitude))/1.60934 << endl;
       var = var->next;
+    //}
     }
-  
 }
  
     else {
